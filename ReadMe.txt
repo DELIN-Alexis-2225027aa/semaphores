@@ -54,9 +54,3 @@ Un **mutex** est utilisé pour protéger l'accès aux variables partagées, comm
    - Le sémaphore `incidentQueue` permet aux analystes de savoir quand un incident est disponible pour être traité.
    - Le sémaphore `incidentProcessed` permet aux incidents de signaler que le traitement est terminé.
 
-## Compilation
-
-Pour compiler ce projet, vous pouvez utiliser un compilateur comme **g++**. Voici la commande pour compiler tous les fichiers du projet :
-
-```bash
-g++ main.cpp Incident.cpp Analyst.cpp SyncTools.cpp -o BarberShopSimulation -lpthread
