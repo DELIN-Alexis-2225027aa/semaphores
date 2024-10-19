@@ -1,82 +1,76 @@
 #include <iostream>
 #include <thread>
-#include <semaphore.h>
-#include <unistd.h>
+#include <semaphore>
 #include <mutex>
+#include <chrono>
 
 #define NB_CONNEXIONS 5
 
-sem_t serveurPret;
-sem_t connexionDispo;
-sem_t fichierPret;
+std::binary_semaphore serveurPret(0);
+std::counting_semaphore<NB_CONNEXIONS> connexionDispo(NB_CONNEXIONS);
+std::binary_semaphore fichierPret(0);
 std::mutex accessConnexions;
 
 int connexionsEnCours = 0;
 
 void employe(int id) {
-    sem_wait(&connexionDispo);
+    connexionDispo.acquire();
 
     std::unique_lock<std::mutex> lock(accessConnexions);
 
     if (connexionsEnCours == NB_CONNEXIONS) {
-        std::cout << "Employe" << id << " attend qu'une connexion se libere.\n";
-        sem_post(&connexionDispo);
+        std::cout << "Employé " << id << " attend qu'une connexion se libère.\n";
+        connexionDispo.release();
         lock.unlock();
         return;
     }
 
     connexionsEnCours++;
-    std::cout << "Employe " << id << " se connecte au serveur. Connexions actives : " << connexionsEnCours << "\n";
+    std::cout << "Employé " << id << " se connecte au serveur. Connexions actives : " << connexionsEnCours << "\n";
 
     lock.unlock();
 
-    sem_post(&serveurPret);
+    serveurPret.release();
 
-    sem_wait(&fichierPret);
-    std::cout << "Employe " << id << " telecharge le fichier.\n";
+    fichierPret.acquire();
+    std::cout << "Employé " << id << " télécharge le fichier.\n";
 
-    sleep(5);
+    std::this_thread::sleep_for(std::chrono::seconds(5));
 
     lock.lock();
     connexionsEnCours--;
-    std::cout << "Employe " << id << " a termine le téléchargement. Connexions actives : " << connexionsEnCours << "\n";
+    std::cout << "Employé " << id << " a terminé le téléchargement. Connexions actives : " << connexionsEnCours << "\n";
     lock.unlock();
 
-    sem_post(&connexionDispo);
+    connexionDispo.release();
 }
 
 void gestionnaireServeur() {
     while (true) {
-        sem_wait(&serveurPret);
+        serveurPret.acquire();
 
-        std::cout << "Le gestionnaire prepare un fichier.\n";
-        sleep(5);
+        std::cout << "Le gestionnaire prépare un fichier.\n";
+        std::this_thread::sleep_for(std::chrono::seconds(2));
 
-        sem_post(&fichierPret);
-        std::cout << "Le gestionnaire a prepare un fichier.\n";
+        fichierPret.release();
+        std::cout << "Le gestionnaire a préparé un fichier.\n";
     }
 }
 
 int main() {
-    sem_init(&serveurPret, 0, 0);
-    sem_init(&connexionDispo, 0, NB_CONNEXIONS);
-    sem_init(&fichierPret, 0, 0);
-
     std::thread threadGestionnaire(gestionnaireServeur);
 
     std::thread employes[10];
     for (int i = 0; i < 10; i++) {
         employes[i] = std::thread(employe, i);
-        sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(5));
     }
 
     for (int i = 0; i < 10; i++) {
         employes[i].join();
     }
 
-    sem_destroy(&serveurPret);
-    sem_destroy(&connexionDispo);
-    sem_destroy(&fichierPret);
+    threadGestionnaire.join();
 
     return 0;
 }
