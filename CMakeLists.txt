@@ -1,23 +1,20 @@
-cmake_minimum_required(VERSION 3.29)
-project(semaphores)
+# CMakeLists.txt
+cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 14)
+project(Semaphores)
 
-include_directories(ProjetFonctionnel/src)
-include_directories(ProjetNonFonctionnel/src)
-
+# Compiler uniquement ProjetFonctionnel
 add_executable(semaphores
-    ProjetFonctionnel/src/Analyst.cpp
-    ProjetFonctionnel/src/Analyst.h
-    ProjetFonctionnel/src/Incident.cpp
-    ProjetFonctionnel/src/Incident.h
-    ProjetFonctionnel/src/SyncTools.cpp
-    ProjetFonctionnel/src/SyncTools.h
-    ProjetFonctionnel/main.cpp
-    ProjetNonFonctionnel/src/Analyst.cpp
-    ProjetNonFonctionnel/src/Analyst.h
-    ProjetNonFonctionnel/src/Incident.cpp
-    ProjetNonFonctionnel/src/Incident.h
-    ProjetNonFonctionnel/src/SyncTools.cpp
-    ProjetNonFonctionnel/src/SyncTools.h
-    ProjetNonFonctionnel/main.cpp)
+        ProjetFonctionnel/src/Analysts.cpp
+        ProjetFonctionnel/src/Incident.cpp
+        ProjetFonctionnel/src/SyncTools.cpp
+        ProjetFonctionnel/main.cpp
+)
+
+ add_executable(semaphores_non_fonctionnel
+     ProjetNonFonctionnel/src/AnalystU.cpp
+     ProjetNonFonctionnel/src/IncidentU.cpp
+     ProjetNonFonctionnel/src/SyncToolsU.cpp
+     ProjetNonFonctionnel/main.cpp
+         ProjetNonFonctionnel/src/IncidentU.h
+ )

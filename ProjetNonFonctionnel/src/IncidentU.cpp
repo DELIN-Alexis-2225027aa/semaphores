@@ -1,11 +1,11 @@
-#include "Incident.h"
+#include "IncidentU.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
 
-Incident::Incident(SyncTools &syncTools, int id) : syncTools(syncTools), incidentID(id) {}
+IncidentU::IncidentU(SyncToolsU &syncTools, int id) : syncTools(syncTools), incidentID(id) {}
 
-void Incident::handleIncident() {
+void IncidentU::handleIncident() {
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     std::cout << "Incident " << incidentID << " pret a etre traite." << std::endl;
