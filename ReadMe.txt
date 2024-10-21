@@ -1,4 +1,7 @@
 A finir -> thread avec interblocage 
-!!Faire valider au prof le sujet créer + question sur linterblocage!!
+question sur linterblocage!!
+Lancer code SafeThread (se postionner au préalable là ou se trouve le fichier):
 g++ -std=c++20 safeThread.cpp 
-z22004394@A-F005664:~/Téléchargements$ ./a.out 
+./a.out 
+
+
