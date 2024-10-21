@@ -1,4 +1,4 @@
-Lancer code BarbierProblem(se postionner au préalable là ou se trouve le fichier):
+Lancer code BarbierProblem (se postionner au préalable là ou se trouve le fichier):
 g++ -std=c++20 BarbierProblem.cpp 
 ./a.out 
 
