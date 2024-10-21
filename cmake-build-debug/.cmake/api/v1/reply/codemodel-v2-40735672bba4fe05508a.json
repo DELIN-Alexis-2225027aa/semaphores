@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Semaphores",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "semaphores::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-semaphores-Debug-0697333516d444c47a6e.json",
+					"name" : "semaphores",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "semaphores_non_fonctionnel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-semaphores_non_fonctionnel-Debug-9252dbdf6565f0576d20.json",
+					"name" : "semaphores_non_fonctionnel",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Mohamed MIESLI/Desktop/BUT3/semaphores/cmake-build-debug",
+		"source" : "C:/Users/Mohamed MIESLI/Desktop/BUT3/semaphores"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
