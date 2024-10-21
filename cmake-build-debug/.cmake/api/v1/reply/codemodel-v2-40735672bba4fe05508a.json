@@ -9,13 +9,14 @@
 					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.29"
+						"string" : "3.10"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -27,10 +28,11 @@
 					[
 						0
 					],
-					"name" : "semaphores",
+					"name" : "Semaphores",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -39,8 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "semaphores::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-semaphores-Debug-75750947e73a30a4c547.json",
+					"jsonFile" : "target-semaphores-Debug-0697333516d444c47a6e.json",
 					"name" : "semaphores",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "semaphores_non_fonctionnel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-semaphores_non_fonctionnel-Debug-9252dbdf6565f0576d20.json",
+					"name" : "semaphores_non_fonctionnel",
 					"projectIndex" : 0
 				}
 			]

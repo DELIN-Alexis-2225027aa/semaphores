@@ -1,15 +1,15 @@
 #ifndef INCIDENT_H
 #define INCIDENT_H
 
-#include "SyncTools.h"
+#include "SyncToolsU.h"
 
-class Incident {
+class IncidentU {
 public:
-    Incident(SyncTools& syncTools, int id);
+    IncidentU(SyncToolsU& syncTools, int id);
     void handleIncident();
 
 private:
-    SyncTools& syncTools;
+    SyncToolsU& syncTools;
     int incidentID;
 };
 
