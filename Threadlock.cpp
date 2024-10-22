@@ -14,50 +14,45 @@ std::mutex accessConnexions;
 int connexionsEnCours = 0;
 
 void employe(int id) {
-    connexionDispo.acquire(); 
+    connexionDispo.acquire();
 
-    std::unique_lock<std::mutex> lock(accessConnexions);
-
-    if (connexionsEnCours == NB_CONNEXIONS) {
-        std::cout << "Employé " << id << " attend qu'une connexion se libère.\n";
-        connexionDispo.release();
-        lock.unlock();
-        return;
+    {
+        std::unique_lock<std::mutex> lock(accessConnexions);
+        connexionsEnCours++;
+        std::cout << "Employé " << id << " se connecte au serveur. Connexions actives : " << connexionsEnCours << "\n";
     }
 
-    connexionsEnCours++;
-    std::cout << "Employé " << id << " se connecte au serveur. Connexions actives : " << connexionsEnCours << "\n";
-
-    
-    if (connexionsEnCours == 1) {
-        lock.unlock();  
-        serveurPret.release();  
-        fichierPret.acquire();
-
-        std::cout << "Employé " << id << " télécharge le fichier.\n";
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-
-        lock.lock(); 
-        std::cout << "Employé " << id << " a terminé le téléchargement.\n";
-    } else {
-        std::cout << "Employé " << id << " est connecté mais ne peut pas télécharger, car il n'est pas seul.\n";
+    {
+        std::unique_lock<std::mutex> lock(accessConnexions);
+        while (connexionsEnCours != 1) {
+            std::cout << "Employé " << id << " attend d'être le seul sur la connexion.\n";
+            lock.unlock();
+            std::this_thread::sleep_for(std::chrono::seconds(1));  
+            lock.lock();
+        }
     }
 
-    connexionsEnCours--;
-    std::cout << "Employé " << id << " se déconnecte. Connexions actives : " << connexionsEnCours << "\n";
+    serveurPret.release();
+    fichierPret.acquire();
 
-    lock.unlock();
-    connexionDispo.release(); 
+    std::cout << "Employé " << id << " télécharge le fichier.\n";
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    {
+        std::unique_lock<std::mutex> lock(accessConnexions);
+        connexionsEnCours--;
+        std::cout << "Employé " << id << " a terminé le téléchargement. Connexions actives : " << connexionsEnCours << "\n";
+    }
+
+    connexionDispo.release();
 }
 
 void gestionnaireServeur() {
     while (true) {
-        serveurPret.acquire();  
-
+        serveurPret.acquire();
         std::cout << "Le gestionnaire prépare un fichier.\n";
         std::this_thread::sleep_for(std::chrono::seconds(2));
-
-        fichierPret.release(); 
+        fichierPret.release();
         std::cout << "Le gestionnaire a préparé un fichier.\n";
     }
 }
